@@ -30,4 +30,23 @@ describe MatrixWalk do
     end
   end
 
+  describe "#move_to_next" do
+    it "should call next_position and set the coordinate and increase step" do
+      matrix = MatrixWalk.new(2, 2)
+      matrix.should_receive(:next_position).and_return([1, 1])
+
+      matrix.move_to_next
+      matrix.board[1][1].should == matrix.steps
+    end
+
+    it "should print number of steps and exit if next_position returns nil" do
+      matrix = MatrixWalk.new(2, 2)
+      matrix.should_receive(:next_position).and_return(nil)
+
+      STDOUT.should_receive(:puts).with(/#{matrix.steps}/)
+      expect { matrix.move_to_next }.to raise_error(SystemExit)
+    end
+  end
+
+
 end
